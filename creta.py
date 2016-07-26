@@ -33,7 +33,7 @@ class Creta():
         self.strict = strict
 
         self.num = 0
-        self.last_time = time.time() 
+        self.last_time = time.time()
         self.times = []
         self.time_taken = 0
         self.time_left = 0 
@@ -48,13 +48,13 @@ class Creta():
     def next(self):
         if self.num < self.n:
             current_time = time.time()
-            self.times.append(current_time - self.last_time)
-            last_time = current_time
-            average_index = max(self.num-self.average_len, 0) or self.num
-            if average_index:
-                average = sum(self.times[average_index:]) / average_index
+            if self.num:
+                average_index = max(self.num-self.average_len, 0)
+                self.times.append(current_time - self.last_time)
+                average = sum(self.times[average_index:]) / len(self.times[average_index:])
                 self.time_taken = average * self.num
                 self.time_left = (self.n * average) - self.time_taken
+            self.last_time = current_time
             self.num += 1
         elif self.strict:
             raise StopIteration()
